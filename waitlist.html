@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FluintsAI Landing Page</title>
+  <link rel="shortcut icon" href="favicon-fluints.ico">
+
+  <style>
+    * {margin:0; padding:0; box-sizing:border-box;}
+    body {
+      font-family: 'Inter', sans-serif;
+      height:100vh;
+      display:flex;
+      flex-direction:column;
+      background: radial-gradient(circle at top, #431370, #0d0221);
+      overflow:hidden;
+      color:#fff;
+    }
+
+    /* Particle Background */
+    canvas {
+      position:absolute;
+      top:0; left:0;
+      width:100%; height:100%;
+      z-index:-1;
+    }
+
+    header {
+      width:100%;
+      padding:1.2rem 2rem;
+      display:flex;
+      align-items:center;
+      justify-content:flex-start;
+      position:relative;
+      z-index:2;
+    }
+    .logo {
+      width:300px;
+    }
+
+    .hero {
+      flex:1;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:2rem;
+      position:relative;
+      z-index:2;
+    }
+
+    h1 {
+      font-size:2.5rem;
+      font-weight:700;
+      margin-bottom:1rem;
+    }
+    p {
+      font-size:1.1rem;
+      color:#ccc;
+      max-width:600px;
+      margin-bottom:2rem;
+      line-height:1.5;
+    }
+
+    .cta {
+      padding:1rem 2rem;
+      font-size:1rem;
+      font-weight:600;
+      border:none;
+      border-radius:0.6rem;
+      background:linear-gradient(90deg,#7b2ff7,#f107a3);
+      color:#fff;
+      cursor:pointer;
+      transition:transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .cta:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 18px rgba(241,7,163,0.4);
+    }
+
+    .modal {
+      display: none; 
+      position: fixed;
+      top:0; left:0;
+      width:100%; height:100%;
+      background:rgba(0,0,0,0.6);
+      align-items:center;
+      justify-content:center;
+      z-index:5;
+    }
+    .modal-content {
+      background:rgba(15,15,35,0.95);
+      padding:2rem;
+      border-radius:1rem;
+      text-align:center;
+      max-width:420px;
+      width:100%;
+      backdrop-filter:blur(12px);
+      box-shadow:0 10px 25px rgba(0,0,0,0.5);
+    }
+    .modal-content h2 {
+      margin-bottom:1rem;
+      font-size:1.5rem;
+    }
+    .modal-content input {
+      width:100%;
+      padding:0.9rem;
+      margin:1rem 0;
+      border:none;
+      border-radius:0.5rem;
+      font-size:1rem;
+      outline:none;
+      background:rgba(255,255,255,0.1);
+      color:#fff;
+    }
+    .modal-content button {
+      padding:0.9rem 1.5rem;
+      border:none;
+      border-radius:0.6rem;
+      font-weight:600;
+      cursor:pointer;
+      background:linear-gradient(90deg,#7b2ff7,#f107a3);
+      color:#fff;
+      font-size:1rem;
+      width:100%;
+    }
+
+    #successView h2 {
+      margin-bottom:0.8rem;
+    }
+    #successView p {
+      margin:0.8rem 0;
+      color:#ccc;
+    }
+    #successView .checkmark {
+      width:70px; height:70px;
+      margin:0 auto 1rem;
+      background:#22c55e;
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:2rem;
+    }
+    #successView .note {
+      margin:1.2rem 0;
+      padding:0.9rem;
+      border-radius:0.6rem;
+      background:#064e3b;
+      font-size:0.95rem;
+    }
+    #successView a {
+      display:block;
+      margin-top:1rem;
+      color:#ccc;
+      font-size:0.9rem;
+      cursor:pointer;
+      text-decoration:none;
+    }
+    #successView a:hover {
+      text-decoration:underline;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Particle Background -->
+  <canvas id="particles"></canvas>
+
+  <header>
+    <img src="Fluints logo.png" alt="FluintsAI Logo" class="logo">
+  </header>
+
+  <section class="hero">
+    <h1>Experience the Future with FluintsAI</h1>
+    <p>AI-powered solutions designed to make your workflow smoother, faster, and more intuitive. Join us as we redefine productivity.</p>
+
+    <button class="cta" id="openModal">🚀 Join The Waitlist</button>
+  </section>
+
+  <!-- Waitlist Modal -->
+  <div class="modal" id="waitlistModal">
+    <div class="modal-content">
+      
+      <!-- Form View -->
+      <div id="formView">
+        <h2>Join the Waitlist</h2>
+        <form id="waitlistForm">
+          <input type="email" id="email" placeholder="Enter your email" required />
+          <button type="submit">Get Early Access</button>
+        </form>
+      </div>
+
+      <!-- Success View -->
+      <div id="successView" style="display:none;">
+        <div class="checkmark">✔</div>
+        <h2>Welcome Aboard! 🎉</h2>
+        <p>You're now on the waitlist! We'll notify you as soon as we launch.</p>
+        <div class="note">
+          Keep an eye on your inbox for exclusive updates and early access perks!
+        </div>
+        <a href="#" id="joinAnother">Join another email</a>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // Particles
+    const canvas = document.getElementById("particles");
+    const ctx = canvas.getContext("2d");
+    let particles = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
+
+    for(let i=0;i<70;i++) {
+      particles.push({
+        x:Math.random()*canvas.width,
+        y:Math.random()*canvas.height,
+        r:Math.random()*2+1,
+        dx:(Math.random()-0.5)*0.5,
+        dy:(Math.random()-0.5)*0.5
+      });
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      ctx.fillStyle="#fff";
+      particles.forEach(p=>{
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fill();
+        p.x+=p.dx;
+        p.y+=p.dy;
+        if(p.x<0||p.x>canvas.width) p.dx*=-1;
+        if(p.y<0||p.y>canvas.height) p.dy*=-1;
+      });
+      requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+
+    // Modal logic
+    const openModalBtn = document.getElementById("openModal");
+    const modal = document.getElementById("waitlistModal");
+    const form = document.getElementById("waitlistForm");
+    const formView = document.getElementById("formView");
+    const successView = document.getElementById("successView");
+    const joinAnother = document.getElementById("joinAnother");
+
+    openModalBtn.addEventListener("click", () => {
+      modal.style.display = "flex";
+    });
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const email = document.getElementById("email").value;
+      if(email){
+        console.log("Submitted email:", email);
+        formView.style.display = "none";
+        successView.style.display = "block";
+      }
+    });
+
+    joinAnother.addEventListener("click", (e) => {
+      e.preventDefault();
+      form.reset();
+      formView.style.display = "block";
+      successView.style.display = "none";
+    });
+
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) {
+        modal.style.display = "none";
+        formView.style.display = "block";
+        successView.style.display = "none";
+      }
+    });
+  </script>
+</body>
+</html>
