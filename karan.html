@@ -671,6 +671,11 @@
         @media (max-width: 1024px) {
             .hero h1 {
                 font-size: 4rem;
+                letter-spacing: -2px;
+            }
+
+            .hero p {
+                font-size: 1.2rem;
             }
 
             .about-grid {
@@ -684,24 +689,80 @@
 
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
+                gap: 2rem;
+            }
+
+            .about-text h2, .services-header h2, .booking h2 {
+                font-size: 3rem;
+            }
+
+            .testimonials-header h2 {
+                font-size: 3rem;
+            }
+
+            .floating-badge {
+                display: none;
             }
         }
 
         @media (max-width: 768px) {
             header {
-                padding: 1.5rem 2rem;
+                padding: 1.5rem 1.5rem;
+            }
+
+            .brand {
+                font-size: 1.1rem;
+            }
+
+            .book-btn {
+                padding: 0.7rem 1.5rem;
+                font-size: 0.9rem;
             }
 
             .hero {
-                padding: 0 2rem;
+                padding: 0 1.5rem;
+                height: auto;
+                min-height: 100vh;
+                padding-top: 100px;
             }
 
             .hero h1 {
-                font-size: 2.8rem;
+                font-size: 2.5rem;
+                letter-spacing: -1px;
+                margin-bottom: 1rem;
             }
 
-            .services-grid {
-                grid-template-columns: 1fr;
+            .hero .accent::after {
+                height: 12px;
+                bottom: 5px;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+                margin-bottom: 2rem;
+            }
+
+            .btn-primary {
+                padding: 1rem 2rem;
+                font-size: 0.95rem;
+            }
+
+            .shape-1 {
+                width: 250px;
+                height: 250px;
+                top: 5%;
+                right: -50px;
+            }
+
+            .shape-2 {
+                width: 150px;
+                height: 150px;
+                bottom: 10%;
+                right: -30px;
+            }
+
+            .stats {
+                padding: 3rem 1.5rem;
             }
 
             .stats-grid {
@@ -709,12 +770,159 @@
                 gap: 2rem;
             }
 
+            .stat-number {
+                font-size: 3rem;
+            }
+
+            .about, .services, .booking, .testimonials {
+                padding: 5rem 1.5rem;
+            }
+
+            .about-grid {
+                gap: 3rem;
+            }
+
+            .about-image {
+                height: 400px;
+                border-radius: 20px;
+            }
+
+            .about-text h2 {
+                font-size: 2.2rem;
+                letter-spacing: -1px;
+            }
+
+            .about-text p {
+                font-size: 1rem;
+            }
+
+            .section-label {
+                font-size: 0.8rem;
+            }
+
+            .services-header h2 {
+                font-size: 2.2rem;
+                letter-spacing: -1px;
+            }
+
+            .services-header p {
+                font-size: 1.1rem;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .service-card {
+                padding: 2rem;
+                border-radius: 20px;
+            }
+
+            .service-icon {
+                font-size: 2.5rem;
+            }
+
+            .service-card h3 {
+                font-size: 1.4rem;
+            }
+
+            .service-card p {
+                font-size: 0.95rem;
+            }
+
+            .testimonials {
+                padding: 5rem 1.5rem;
+            }
+
+            .testimonials-header h2 {
+                font-size: 2.2rem;
+                letter-spacing: -1px;
+            }
+
+            .testimonial {
+                padding: 2rem 0;
+            }
+
+            .testimonial-text {
+                font-size: 1.2rem;
+            }
+
+            .booking h2 {
+                font-size: 2.5rem;
+                letter-spacing: -1px;
+            }
+
+            .booking-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .calendly-container {
+                padding: 2rem;
+                border-radius: 20px;
+                min-height: 600px;
+            }
+
+            .calendly-placeholder h3 {
+                font-size: 1.4rem;
+            }
+
+            .calendly-placeholder p {
+                font-size: 1rem;
+            }
+
+            .code-block {
+                font-size: 0.75rem;
+                padding: 1.5rem;
+                overflow-x: auto;
+            }
+
             .cursor, .cursor-follower {
                 display: none;
             }
 
-            .about, .services, .booking, .testimonials {
-                padding: 5rem 2rem;
+            footer {
+                padding: 3rem 1.5rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .btn-primary {
+                padding: 0.9rem 1.8rem;
+                font-size: 0.9rem;
+            }
+
+            .stat-number {
+                font-size: 2.5rem;
+            }
+
+            .stat-label {
+                font-size: 0.85rem;
+            }
+
+            .about-text h2, .services-header h2, .testimonials-header h2 {
+                font-size: 1.8rem;
+            }
+
+            .booking h2 {
+                font-size: 2rem;
+            }
+
+            .service-card {
+                padding: 1.5rem;
+            }
+
+            .calendly-container {
+                padding: 1.5rem;
             }
         }
     </style>
@@ -859,7 +1067,7 @@
             <div class="calendly-container">
                 <div class="calendly-placeholder">
                     <h3>📅 Calendly Integration</h3>
-                    <p>Calendly will come here</p>
+                    <p>To activate booking, replace this section with your Calendly widget</p>
                     <div class="code-block">
 &lt;!-- Add this where you want Calendly to appear --&gt;<br>
 &lt;div class="calendly-inline-widget"<br>
